@@ -12,27 +12,23 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class UserController extends Controller
 {
     //all users are displayed
-    public function index()
+    public function index(User $user)
     {
         echo 'All users are displayed';
-        
         $user =  User::all();
         return response()->json($user);
     }
 
-    //display single record using id 
-    public function show($id)
+    //display single record using id with type hinting
+    public function show(User $user)
     {
          echo 'a single user is shown.';
-         
-         $user = User::find($id);
          return response()->json($user);
     }
     
     //update all feilds of a record
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::find($id);
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->password = $request->input('password');
@@ -42,10 +38,9 @@ class UserController extends Controller
 
     //delete a record
     //public function destroy($id)
-    public function destroy($id)
+    public function destroy(User $user)
     {
         echo 'user is deleted';
-        $user = User::find($id);
         $user->delete();
         return response()->json($user);
     }

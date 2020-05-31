@@ -12,28 +12,24 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class RoleController extends Controller
 {   
     //all users are displayed
-    public function index()
+    public function index(Role $role)
     {
         echo 'All roles are displayed';
-        
         $role =  Role::all();
         return response()->json($role);
     }
 
      //display single record using id 
-     public function show($id)
+     public function show(Role $role)
      {
           echo 'a single entry is shown.';
-          
-          $role = Role::find($id);
           return response()->json($role);
      }
 
       //update all feilds of a record
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
         echo 'record is updated';
-        $role = Role::find($id);
         $role->name = $request->input('name');
         $role->description = $request->input('description');
         $role->save();
@@ -41,10 +37,9 @@ class RoleController extends Controller
     }
 
      //delete a record
-     public function destroy(Request $request, $id)
+     public function destroy(Request $request, Role $role)
      {
         echo 'role is deleted';
-        $role = Role::find($id);
         $role->delete();
         return response()->json($role);
      }
@@ -69,22 +64,6 @@ class RoleController extends Controller
             $token = JWTAuth::fromUser($role);
 
             return response()->json(compact('role','token'),201);
-        }
-
-        public function login(Request $request)
-        {
-            $credentials = $request->only('name');
-            $token = JWTAuth::attempt($credentials);
-
-            try {
-                if (! $token = JWTAuth::attempt($credentials)) {
-                    return response()->json(['error' => 'invalid_credentials'], 400);
-                }
-            } catch (JWTException $e) {
-                return response()->json(['error' => 'could_not_create_token'], 500);
-            }
-
-            return response()->json(compact('token'));
         }
 
 }

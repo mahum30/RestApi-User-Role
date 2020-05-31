@@ -24,14 +24,10 @@ Route::get('user/auth', 'UserController@getAuthenticatedUser');
 
 //resource route
 Route::resources([
-    'users' => 'UserController',
-    'roles' => 'RoleController'
+    'user' => 'UserController',
+    'role' => 'RoleController'
 ]);
 
 
-
-
-//role endpoint
-//Route::post('role/login', 'RoleController@login');
 
 
